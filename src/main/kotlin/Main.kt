@@ -1,3 +1,4 @@
+import assembler.BinaryEncoder
 import assembler.InternalRepresentation
 import cli.UvmAssemblerCli
 import commands.parser.JsonCommandParser
@@ -5,7 +6,9 @@ import java.io.File
 import kotlin.system.exitProcess
 
 //[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-//.\gradlew.bat run --args="src/test/resources/test_program_1.json output.bin --test"
+//.\gradlew.bat run --args="test_program.json output.bin"
+//.\gradlew.bat run --args="--test test_program.json output.bin"
+//.\gradlew.bat run --args="-i test_program.json -o output.bin -t"
 fun main(args: Array<String>) {
     try {
         println("Обработка аргументов коммандной строки")
@@ -40,6 +43,23 @@ fun main(args: Array<String>) {
             println("Проверка соответствия тестовым примерам:")
             irGenerator.verifyTestCases(internalRep)
         }
+        val binaryEncoder = BinaryEncoder()
+        val binaryData = binaryEncoder.encodeToBinary(internalRep)
+        val outputFile = File(context.outputFile)
+        outputFile.writeBytes(binaryData)
+        println("Машинный код успешно записан в файл: ${context.outputFile}")
+        println("Всего ассемблировано команд: ${internalRep.size}")
+        println("Размер выходного файла: ${binaryData.size} байт")
+        if (context.testMode) {
+            println("--- Результат ассемблирования в байтовом формате ---")
+            binaryEncoder.displayBinaryOutput(binaryData)
+
+            println("--- Проверка соответствия тестовым байтовым последовательностям ---")
+            binaryEncoder.verifyBinaryTestCases(internalRep)
+        }
+
+        println("=== Ассемблирование завершено успешно! ===")
+
     } catch (e: IllegalArgumentException) {
         println("Ошибка с аргументами: ${e.message}")
         println("Используйте --help для справки")

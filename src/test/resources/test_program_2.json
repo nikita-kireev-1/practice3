@@ -1,0 +1,23 @@
+[
+  {
+    "op": "LOAD_CONST",
+    "reg": 29,
+    "value": 27
+  },
+  {
+    "op": "READ_MEM",
+    "base_reg": 20,
+    "dst_reg": 16,
+    "offset": 390
+  },
+  {
+    "op": "WRITE_MEM",
+    "reg": 24,
+    "addr": 178
+  },
+  {
+    "op": "ADD",
+    "reg": 19,
+    "addr": 956
+  }
+]
