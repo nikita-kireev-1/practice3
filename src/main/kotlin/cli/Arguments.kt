@@ -74,17 +74,19 @@ class UvmAssemblerCli(private val args: Array<String>) {
     }
     private fun showHelp() {
         println("""
-        UVM Ассемблер - Этап 1: Парсинг программы
+        === UVM Ассемблер (Этап 2: Формирование машинного кода) ===
         Использование:
-          .\gradlew.bat run --args="path/to/<input.json> path/to/<output.bin> <option>
+          .\gradlew.bat run --args="[опции] <input.json> <output.bin>"
         Аргументы:
           <input.json>           Входной файл с программой в формате JSON
-          <output.bin>           Выходной бинарный файл (для следующих этапов)
+          <output.bin>           Выходной бинарный файл
         Опции:
-          -t, --test            Включить режим тестирования
+          -t, --test            Включить режим тестирования (вывод промежуточных данных)
           -h, --help            Показать эту справку
         Примеры:
-          .\gradlew.bat run --args="src/test/resources/test_program_1.json output.bin --test"
+          .\gradlew.bat run --args="test_program.json output.bin"
+          .\gradlew.bat run --args="--test test_program.json output.bin"
+          .\gradlew.bat run --args="-i test_program.json -o output.bin -t"
         Формат JSON программы:
           [
             {"op": "LOAD_CONST", "reg": 29, "value": 27},
@@ -92,6 +94,11 @@ class UvmAssemblerCli(private val args: Array<String>) {
             {"op": "WRITE_MEM", "reg": 24, "addr": 178},
             {"op": "ADD", "reg": 19, "addr": 956}
           ]
+        Этапы работы:
+          1. Парсинг JSON и создание внутреннего представления
+          2. Кодирование в машинный код (5 байт на команду)
+          3. Запись в бинарный файл
+          4. Вывод статистики и (в тестовом режиме) байтового представления
         """.trimIndent())
     }
 }
