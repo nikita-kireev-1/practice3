@@ -4,6 +4,7 @@ import cli.UvmAssemblerCli
 import commands.parser.JsonCommandParser
 import java.io.File
 import kotlin.system.exitProcess
+//GITCHANGEPRACTICE
 //asd
 //[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 //.\gradlew.bat run --args="test_program.json output.bin"
