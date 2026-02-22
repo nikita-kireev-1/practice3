@@ -1,5 +1,5 @@
 package assembler
-
+//GITCHANGEPRACTICE
 import model.UvmCommand
 
 class BinaryEncoder {
